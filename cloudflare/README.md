@@ -27,6 +27,18 @@ npm run deploy     # build + publish to test-site.<your-subdomain>.workers.dev
 
 `build.py` needs Flask. It uses `../.venv` automatically if your `python` doesn't have it.
 
+## Deploying from GitHub (Workers Builds)
+
+The `test-site` Worker is connected to this repo, so every push to
+`cloudflare-demo` redeploys it. Settings (Worker > Settings > Builds):
+
+| Setting | Value |
+|---|---|
+| Production branch | `cloudflare-demo` |
+| Root directory | `cloudflare` |
+| Build command | `pip install -r ../requirements.txt` (Flask, for `build.py`) |
+| Deploy command | `npx wrangler deploy` (runs `python build.py` first) |
+
 ## Swapping the test site
 
 The Worker is named `test-site`. Deploying any other project with
