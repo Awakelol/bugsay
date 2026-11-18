@@ -6,3 +6,9 @@ instance/
 .pytest_cache/
 .DS_Store
 Thumbs.db
+
+# Cloudflare build output
+cloudflare/public/
+cloudflare/worker/generated/
+cloudflare/node_modules/
+cloudflare/.wrangler/

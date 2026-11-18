@@ -1,0 +1,17 @@
+{
+  "name": "bugsay-cloudflare",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "build": "python build.py",
+    "test": "python build.py && node --test test/*.test.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.143.0"
+  }
+}

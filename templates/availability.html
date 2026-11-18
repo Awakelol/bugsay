@@ -10,7 +10,7 @@
 
 <section class="wrap section">
     <div class="dash-bar">
-        <form class="dash-controls" id="dash-form">
+        <form class="dash-controls" id="dash-form" data-url-form>
             <div class="field">
                 <label for="d-date">Date</label>
                 <input type="date" id="d-date" name="date" value="{{ query.get('date', today.isoformat()) }}" min="{{ today.isoformat() }}">

@@ -139,6 +139,35 @@
         });
     }
 
+    // ------------------------------------------------- dates and URL state
+    // Pages can be served as prebuilt static files (the Cloudflare version), so
+    // "today" and the search fields are settled here in the browser too. On the
+    // Flask server these already match and nothing changes.
+    var pad2 = function (n) { return String(n).padStart(2, "0"); };
+    var now = new Date();
+    var todayIso = now.getFullYear() + "-" + pad2(now.getMonth() + 1) + "-" + pad2(now.getDate());
+    document.querySelectorAll("input[type=date][min]").forEach(function (input) {
+        if (input.min < todayIso) input.min = todayIso;
+        if (input.value && input.value < todayIso) input.value = todayIso;
+    });
+    var urlParams = new URLSearchParams(window.location.search);
+    document.querySelectorAll("[data-search-form], [data-url-form]").forEach(function (f) {
+        urlParams.forEach(function (value, key) {
+            var field = f.elements[key];
+            if (!field) return;
+            if (field instanceof RadioNodeList && field[0] && field[0].type === "radio") {
+                field.forEach(function (r) { r.checked = r.value === value; });
+                var group = field[0].closest("[data-segmented]");
+                if (group) syncSegment(group);
+            } else if (field.tagName === "SELECT" && !Array.prototype.some.call(field.options, function (o) { return o.value === value; })) {
+                if (field.dataset.selected != null) field.dataset.selected = value;
+            } else {
+                field.value = value;
+                if (field.dataset.selected != null) field.dataset.selected = value;
+            }
+        });
+    });
+
     // ------------------------------------------------------- search form
     var form = document.querySelector("[data-search-form]");
     if (!form) return;

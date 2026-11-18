@@ -1,0 +1,26 @@
+{
+  // One reusable Worker for test sites: deploying any project under this name
+  // replaces whatever is at https://test-site.<your-subdomain>.workers.dev.
+  "name": "test-site",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-07-29",
+
+  // Renders the Flask templates to static files and exports the ferry data.
+  // Run wrangler from this folder (npm run dev / npm run deploy).
+  "build": { "command": "python build.py" },
+
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Everything else is a static file; these need the Worker.
+    "run_worker_first": ["/api/*", "/booking/*", "/my-trip"]
+  },
+
+  // Bookings. Created automatically on first deploy; tables are made on first use.
+  "d1_databases": [
+    { "binding": "DB", "database_name": "bugsay-test-site" }
+  ],
+
+  "observability": { "enabled": true }
+}
